@@ -1,19 +1,17 @@
 # ──────────────────────────────────────────────────────────────────────
 # FORGE — GitHub Actions CI pipeline
 #
-# This runs automatically on every push and every pull request.
-# If tests fail, the workflow goes red and GitHub will show it
-# on the PR (you can also require it to pass before merging via
-# Settings → Branches → Branch protection rules).
+# This runs automatically on every pull request targeting the dev or
+# main branches. If tests fail, the workflow goes red and GitHub will
+# show it on the PR (you can also require it to pass before merging
+# via Settings → Branches → Branch protection rules).
 # ──────────────────────────────────────────────────────────────────────
 
 name: CI
 
 on:
-  push:
-    branches: ["**"]
   pull_request:
-    branches: ["**"]
+    branches: [main, dev]
 
 jobs:
   test:
