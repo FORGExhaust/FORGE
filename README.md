@@ -4,12 +4,16 @@
   <img src="src/forge/data/images/FORGE_logo.svg" alt="FORGE logo" width="300">
 </p>
 
-***F**ORGE **O**ptimises **R**eactor **G**eometries to improve **E**xhaust*
+<p align="center">
+  <em><b>F</b>ORGE <b>O</b>ptimises <b>R</b>eactor <b>G</b>eometries to improve <b>E</b>xhaust</em>
+</p>
 
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-![Python 3.10+](https://img.shields.io/badge/python-≥3.10-blue.svg)
-[![Docs](https://readthedocs.org/projects/forgexhaust/badge/?version=latest)](https://forgexhaust.readthedocs.io/en/latest/)
-[![CI](https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml/badge.svg)](https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml)
+<p align="center">
+  <a href="https://www.gnu.org/licenses/lgpl-3.0"><img src="https://img.shields.io/badge/License-LGPL_v3-blue.svg" alt="License: LGPL v3"></a>
+  <img src="https://img.shields.io/badge/python-≥3.10-blue.svg" alt="Python 3.10+">
+  <a href="https://forgexhaust.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/forgexhaust/badge/?version=latest" alt="Docs"></a>
+  <a href="https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml"><img src="https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
 
 ---
 
