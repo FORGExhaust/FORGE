@@ -1,15 +1,19 @@
 # FORGE
 
-![FORGE logo](src/forge/data/images/FORGE_logo.svg)
+<p align="center">
+  <img src="src/forge/data/images/FORGE_logo.svg" alt="FORGE logo" width="300">
+</p>
 
-*FORGE Optimises Reactor Geometries to improve Exhaust*
+<p align="center">
+  <em><b>F</b>ORGE <b>O</b>ptimises <b>R</b>eactor <b>G</b>eometries to improve <b>E</b>xhaust</em>
+</p>
 
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-![Python 3.10+](https://img.shields.io/badge/python-≥3.10-blue.svg)
-<!-- TODO: uncomment when CI badges are available
-![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg)
--->
+<p align="center">
+  <a href="https://www.gnu.org/licenses/lgpl-3.0"><img src="https://img.shields.io/badge/License-LGPL_v3-blue.svg" alt="License: LGPL v3"></a>
+  <img src="https://img.shields.io/badge/python-≥3.10-blue.svg" alt="Python 3.10+">
+  <a href="https://forgexhaust.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/forgexhaust/badge/?version=latest" alt="Docs"></a>
+  <a href="https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml"><img src="https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
 
 ---
 
@@ -32,19 +36,18 @@ geometry, it can be applied to any tokamak for which you have a GEQDSK
 equilibrium and a PF coil description. If you are interested in using
 FORGE, have questions, or would like to contribute to its development,
 please join the discussion on the
-**[FORGE Discord server](https://discord.gg/<placeholder>)**.
+**[FORGE Discord server](https://discord.gg/8qStbSTNEy)**.
 
 ## Documentation
 
-<!-- TODO: replace with actual hosted docs URL -->
-Full documentation is available at **[https://forge.readthedocs.io](https://forge.readthedocs.io)** (placeholder), including:
+Full documentation is available at **[https://forgexhaust.readthedocs.io](https://forgexhaust.readthedocs.io/en/latest/index.html)**, including:
 
-- [Installation](<!-- link -->) — setup instructions
-- [How It Works](<!-- link -->) — the physics and algorithms behind FORGE
-- [Getting Started](<!-- link -->) — input formats and a worked example
-- [GUI](<!-- link -->) — graphical interface (under development)
-- [API Reference](<!-- link -->) — auto-generated module documentation
-- [Examples](<!-- link -->) — seven progressive example scripts on MAST-U
+- [Installation](https://forgexhaust.readthedocs.io/en/latest/installation.html) — setup instructions
+- [How It Works](https://forgexhaust.readthedocs.io/en/latest/how_it_works.html) — the physics and algorithms behind FORGE
+- [Getting Started](https://forgexhaust.readthedocs.io/en/latest/getting_started.html) — input formats and a worked example
+- [GUI](https://forgexhaust.readthedocs.io/en/latest/gui.html) — graphical interface (under development)
+- [API Reference](https://forgexhaust.readthedocs.io/en/latest/api_reference.html) — auto-generated module documentation
+- [Examples](https://forgexhaust.readthedocs.io/en/latest/examples.html) — seven progressive example scripts on MAST-U
 
 To build the docs locally:
 
@@ -122,6 +125,8 @@ FORGE builds on several routines from
 which are used under the terms of the LGPL-3.0 licence. See the
 individual source files for details.
 
+FORGE was initially developed at [Tokamak Energy](https://github.com/tokamak-energy).
+
 The FORGE GUI is built with
 [Panel](https://panel.holoviz.org/) and
 [Bokeh](https://bokeh.org/):
@@ -144,7 +149,7 @@ See [LICENSE](LICENSE) for the full text.
 
 The bundled MAST-U example data is provided under
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-See the documentation [licence page](<!-- TODO: link -->) for details.
+See the documentation [licence page](https://forgexhaust.readthedocs.io/en/latest/license.html) for details.
 
 **Note:** The MAST-U machine configuration represented by the bundled data
 corresponds to the MAST-U device as operated during the period 2020–2025.
