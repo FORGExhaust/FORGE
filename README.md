@@ -125,6 +125,8 @@ FORGE builds on several routines from
 which are used under the terms of the LGPL-3.0 licence. See the
 individual source files for details.
 
+FORGE was initially developed at [Tokamak Energy](https://github.com/tokamak-energy).
+
 The FORGE GUI is built with
 [Panel](https://panel.holoviz.org/) and
 [Bokeh](https://bokeh.org/):
