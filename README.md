@@ -8,10 +8,8 @@
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 ![Python 3.10+](https://img.shields.io/badge/python-≥3.10-blue.svg)
-<!-- TODO: uncomment when CI badges are available
-![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg)
--->
+[![Docs](https://readthedocs.org/projects/forgexhaust/badge/?version=latest)](https://forgexhaust.readthedocs.io/en/latest/)
+[![CI](https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml/badge.svg)](https://github.com/FORGExhaust/FORGE/actions/workflows/ci.yml)
 
 ---
 
@@ -38,15 +36,14 @@ please join the discussion on the
 
 ## Documentation
 
-<!-- TODO: replace with actual hosted docs URL -->
-Full documentation is available at **[https://forge.readthedocs.io](https://forge.readthedocs.io)** (placeholder), including:
+Full documentation is available at **[https://forgexhaust.readthedocs.io](https://forgexhaust.readthedocs.io/en/latest/index.html)**, including:
 
-- [Installation](<!-- link -->) — setup instructions
-- [How It Works](<!-- link -->) — the physics and algorithms behind FORGE
-- [Getting Started](<!-- link -->) — input formats and a worked example
-- [GUI](<!-- link -->) — graphical interface (under development)
-- [API Reference](<!-- link -->) — auto-generated module documentation
-- [Examples](<!-- link -->) — seven progressive example scripts on MAST-U
+- [Installation](https://forgexhaust.readthedocs.io/en/latest/installation.html) — setup instructions
+- [How It Works](https://forgexhaust.readthedocs.io/en/latest/how_it_works.html) — the physics and algorithms behind FORGE
+- [Getting Started](https://forgexhaust.readthedocs.io/en/latest/getting_started.html) — input formats and a worked example
+- [GUI](https://forgexhaust.readthedocs.io/en/latest/gui.html) — graphical interface (under development)
+- [API Reference](https://forgexhaust.readthedocs.io/en/latest/api_reference.html) — auto-generated module documentation
+- [Examples](https://forgexhaust.readthedocs.io/en/latest/examples.html) — seven progressive example scripts on MAST-U
 
 To build the docs locally:
 
@@ -146,7 +143,7 @@ See [LICENSE](LICENSE) for the full text.
 
 The bundled MAST-U example data is provided under
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-See the documentation [licence page](<!-- TODO: link -->) for details.
+See the documentation [licence page](https://forgexhaust.readthedocs.io/en/latest/license.html) for details.
 
 **Note:** The MAST-U machine configuration represented by the bundled data
 corresponds to the MAST-U device as operated during the period 2020–2025.
