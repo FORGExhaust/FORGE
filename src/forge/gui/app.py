@@ -211,7 +211,7 @@ def create_app():
             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
             <div style="display:flex; align-items:center; gap:16px;">
                 <!-- GitHub -->
-                <a href="https://github.com/placeholder/forge" target="_blank" title="Source Code"
+                <a href="https://github.com/FORGExhaust/FORGE" target="_blank" title="Source Code"
                    style="color:inherit; text-decoration:none;">
                     <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
@@ -225,7 +225,7 @@ def create_app():
                     </svg>
                 </a>
                 <!-- ReadTheDocs -->
-                <a href="https://forge.readthedocs.io" target="_blank" title="Documentation"
+                <a href="https://forgexhaust.readthedocs.io/en/latest/" target="_blank" title="Documentation"
                    style="color:inherit; text-decoration:none;">
                     <svg height="24" width="24" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M7 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-6-6H7zm0
@@ -233,7 +233,7 @@ def create_app():
                     </svg>
                 </a>
                 <!-- Discord -->
-                <a href="https://discord.gg/placeholder" target="_blank" title="Discord"
+                <a href="https://discord.gg/8qStbSTNEy" target="_blank" title="Discord"
                    style="color:inherit; text-decoration:none;">
                     <svg height="24" width="24" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0
