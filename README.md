@@ -1,8 +1,10 @@
 # FORGE
 
-![FORGE logo](src/forge/data/images/FORGE_logo.svg)
+<p align="center">
+  <img src="src/forge/data/images/FORGE_logo.svg" alt="FORGE logo" width="300">
+</p>
 
-*FORGE Optimises Reactor Geometries to improve Exhaust*
+***F**ORGE **O**ptimises **R**eactor **G**eometries to improve **E**xhaust*
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 ![Python 3.10+](https://img.shields.io/badge/python-≥3.10-blue.svg)
@@ -32,7 +34,7 @@ geometry, it can be applied to any tokamak for which you have a GEQDSK
 equilibrium and a PF coil description. If you are interested in using
 FORGE, have questions, or would like to contribute to its development,
 please join the discussion on the
-**[FORGE Discord server](https://discord.gg/<placeholder>)**.
+**[FORGE Discord server](https://discord.gg/8qStbSTNEy)**.
 
 ## Documentation
 
