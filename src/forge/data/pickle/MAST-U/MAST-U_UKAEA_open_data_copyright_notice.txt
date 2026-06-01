@@ -1,0 +1,10 @@
+The MAST-U data found in this directory are extracted from open-source
+MAST-U data published by UKAEA at https://opendata.ukaea.uk/doi/?id=jmpp-4c57&br=2026
+and is subject to the following copyright notice, accessed 26/03/2026:
+--------------------------------------------------------------------------------------
+
+Harrison, J. (2026). MAST-U freegs coil configuration (Version 1.0) [Data set]. United Kingdom Atomic Energy Authority (UKAEA). https://doi.org/10.14468/JMPP-4C57
+
+DOI: https://doi.org/10.14468/jmpp-4c57
+
+License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)

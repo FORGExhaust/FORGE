@@ -1,0 +1,19 @@
+The MAST-U data found in this directory are extracted from open-source
+MAST-U data published by UKAEA at https://opendata.ukaea.uk/doi/?id=jmpp-4c57&br=2026 .
+These files are conversions of parts of the original data (pickle files) into a 
+more convenient JSON file format. These data are subject to the following copyright notice, accessed 26/03/2026:
+----------------------------------------------------------------------------------------------------------------
+
+Note: The file MAST-U_active_coils_masks.json was produced by FORGE and is
+not part of the original UKAEA data set.
+
+Harrison, J. (2026). MAST-U freegs coil configuration (Version 1.0) [Data set]. United Kingdom Atomic Energy Authority (UKAEA). https://doi.org/10.14468/JMPP-4C57
+
+DOI: https://doi.org/10.14468/jmpp-4c57
+
+License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+Disclaimer: The MAST-U machine configuration represented by these data
+files corresponds to the MAST-U device as operated during the period
+2020–2025. Any subsequent modifications to the machine are not reflected
+in these data.
