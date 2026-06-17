@@ -9,6 +9,7 @@ from bokeh.models import ColumnDataSource, Range1d, LinearColorMapper, HoverTool
 from bokeh.plotting import figure as bk_figure
 
 from forge.equilibrium import Equilibrium
+from forge.gui.contours import colored_contour_xy_lists, contour_xy_lists
 from forge.io import read_geqdsk, read_magnets
 from forge.machine import Machine
 from forge.utils import orthogonalised_convex_hull_from_rects
@@ -479,21 +480,11 @@ class SetupTab:
 
         fig_tmp, ax_tmp = plt.subplots()
         cs = ax_tmp.contour(eq.R_2D, eq.Z_2D, eq.psi_2D, levels=60)
-        xs_all, ys_all = [], []
-        for collection in cs.collections:
-            for path in collection.get_paths():
-                verts = path.vertices
-                xs_all.append(verts[:, 0].tolist())
-                ys_all.append(verts[:, 1].tolist())
+        xs_all, ys_all = contour_xy_lists(cs)
 
         # Separatrix contour at psi_lcfs
         cs_sep = ax_tmp.contour(eq.R_2D, eq.Z_2D, eq.psi_2D, levels=[eq.psi_lcfs])
-        sep_xs, sep_ys = [], []
-        for collection in cs_sep.collections:
-            for path in collection.get_paths():
-                verts = path.vertices
-                sep_xs.append(verts[:, 0].tolist())
-                sep_ys.append(verts[:, 1].tolist())
+        sep_xs, sep_ys = contour_xy_lists(cs_sep)
         plt.close(fig_tmp)
 
         self._eq_contour_source.data = dict(xs=xs_all, ys=ys_all)
@@ -740,7 +731,6 @@ class SetupTab:
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         from matplotlib.colors import Normalize
-        from matplotlib import cm
 
         datasets = {
             "Total \u03c8": eq.psi_2D,
@@ -809,31 +799,19 @@ class SetupTab:
             vmax = float(np.nanmax(data_2D))
             levels = np.linspace(vmin, vmax, n_levels)
             norm = Normalize(vmin=vmin, vmax=vmax)
-            cmap = cm.get_cmap("viridis")
+            cmap = matplotlib.colormaps["viridis"]
 
             fig_tmp, ax_tmp = plt.subplots()
             cs = ax_tmp.contour(eq.R_2D, eq.Z_2D, data_2D, levels=levels)
 
-            xs_all, ys_all, colors_all = [], [], []
-            for level_val, collection in zip(cs.levels, cs.collections):
-                hex_col = matplotlib.colors.to_hex(cmap(norm(level_val)))
-                for path in collection.get_paths():
-                    verts = path.vertices
-                    xs_all.append(verts[:, 0].tolist())
-                    ys_all.append(verts[:, 1].tolist())
-                    colors_all.append(hex_col)
+            xs_all, ys_all, colors_all = colored_contour_xy_lists(cs, cmap, norm)
 
             # Separatrix on the Total \u03c8 plot
             if label == "Total \u03c8":
                 cs_sep = ax_tmp.contour(
                     eq.R_2D, eq.Z_2D, eq.psi_2D, levels=[eq.psi_lcfs],
                 )
-                sep_xs, sep_ys = [], []
-                for coll in cs_sep.collections:
-                    for path in coll.get_paths():
-                        verts = path.vertices
-                        sep_xs.append(verts[:, 0].tolist())
-                        sep_ys.append(verts[:, 1].tolist())
+                sep_xs, sep_ys = contour_xy_lists(cs_sep)
                 srcs["separatrix"].data = dict(xs=sep_xs, ys=sep_ys)
 
             plt.close(fig_tmp)

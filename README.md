@@ -80,7 +80,7 @@ pip install -e ".[test,docs]"
 
 | Package | Minimum version |
 |---------|-----------------|
-| NumPy | 1.26.3 |
+| NumPy | 2.0.0 |
 | Matplotlib | 3.7.5 |
 | SciPy | 1.11.4 |
 | Shapely | 2.0.1 |

@@ -24,6 +24,7 @@ from bokeh.models import (
 from bokeh.plotting import figure as bk_figure
 from shapely.geometry import LineString
 
+from forge.gui.contours import contour_xy_lists
 from forge.io import fancy_json_string
 from forge.utils import orthogonalised_convex_hull_from_rects
 
@@ -1091,19 +1092,9 @@ class GeometryTab:
         import matplotlib.pyplot as plt
         fig_tmp, ax_tmp = plt.subplots()
         cs = ax_tmp.contour(eq.R_2D, eq.Z_2D, eq.psi_2D, levels=60)
-        xs, ys = [], []
-        for coll in cs.collections:
-            for path in coll.get_paths():
-                v = path.vertices
-                xs.append(v[:, 0].tolist())
-                ys.append(v[:, 1].tolist())
+        xs, ys = contour_xy_lists(cs)
         cs_sep = ax_tmp.contour(eq.R_2D, eq.Z_2D, eq.psi_2D, levels=[eq.psi_lcfs])
-        sep_xs, sep_ys = [], []
-        for coll in cs_sep.collections:
-            for path in coll.get_paths():
-                v = path.vertices
-                sep_xs.append(v[:, 0].tolist())
-                sep_ys.append(v[:, 1].tolist())
+        sep_xs, sep_ys = contour_xy_lists(cs_sep)
         plt.close(fig_tmp)
         self._contour_source.data = dict(xs=xs, ys=ys)
         self._lcfs_source.data = dict(xs=sep_xs, ys=sep_ys)

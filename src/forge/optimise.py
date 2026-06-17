@@ -1107,7 +1107,7 @@ class Optimiser:
             integrand = np.sqrt(1.0 + ((Btor * Btor) / (Br * Br + Bz * Bz)))
 
             # Perform numerical integration
-            connection_length = np.trapz(integrand,s_pol_dists)
+            connection_length = np.trapezoid(integrand, s_pol_dists)
 
             # Connection_length is now the full parallel connection length for this configuration
 
