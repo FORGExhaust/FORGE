@@ -16,6 +16,7 @@ import panel as pn
 from bokeh.models import BasicTickFormatter, ColumnDataSource, Range1d
 from bokeh.plotting import figure as bk_figure
 
+from forge.gui.contours import contour_xy_lists
 from forge.io import fancy_json_string
 from forge.optimise import Optimiser
 
@@ -323,12 +324,7 @@ class OptimisationTab:
 
         # Contour lines (40 levels — fast yet detailed enough for live feedback)
         cs = ax_tmp.contour(self._eq_R2D, self._eq_Z2D, psi_2D, levels=40)
-        xs_all, ys_all = [], []
-        for collection in cs.collections:
-            for path in collection.get_paths():
-                verts = path.vertices
-                xs_all.append(verts[:, 0].tolist())
-                ys_all.append(verts[:, 1].tolist())
+        xs_all, ys_all = contour_xy_lists(cs)
 
         # Separatrix at psi_lcfs
         sep_xs, sep_ys = [], []
@@ -337,11 +333,7 @@ class OptimisationTab:
                 self._eq_R2D, self._eq_Z2D, psi_2D,
                 levels=[self._eq_psi_lcfs],
             )
-            for collection in cs_sep.collections:
-                for path in collection.get_paths():
-                    verts = path.vertices
-                    sep_xs.append(verts[:, 0].tolist())
-                    sep_ys.append(verts[:, 1].tolist())
+            sep_xs, sep_ys = contour_xy_lists(cs_sep)
 
         plt.close(fig_tmp)
 

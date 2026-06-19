@@ -45,9 +45,9 @@ Full documentation is available at **[https://forgexhaust.readthedocs.io](https:
 - [Installation](https://forgexhaust.readthedocs.io/en/latest/installation.html) — setup instructions
 - [How It Works](https://forgexhaust.readthedocs.io/en/latest/how_it_works.html) — the physics and algorithms behind FORGE
 - [Getting Started](https://forgexhaust.readthedocs.io/en/latest/getting_started.html) — input formats and a worked example
-- [GUI](https://forgexhaust.readthedocs.io/en/latest/gui.html) — graphical interface (under development)
+- [GUI](https://forgexhaust.readthedocs.io/en/latest/gui.html) — graphical interface
 - [API Reference](https://forgexhaust.readthedocs.io/en/latest/api_reference.html) — auto-generated module documentation
-- [Examples](https://forgexhaust.readthedocs.io/en/latest/examples.html) — seven progressive example scripts on MAST-U
+- [Examples](https://forgexhaust.readthedocs.io/en/latest/examples.html) — six progressive example scripts on MAST-U
 
 To build the docs locally:
 
@@ -73,14 +73,14 @@ pip install .
 ```bash
 git clone https://github.com/FORGExhaust/FORGE.git
 cd forge
-pip install -e ".[test,docs]"
+pip install -e ".[test,docs,gui]"
 ```
 
 ### Dependencies
 
 | Package | Minimum version |
 |---------|-----------------|
-| NumPy | 1.26.3 |
+| NumPy | 2.0.0 |
 | Matplotlib | 3.7.5 |
 | SciPy | 1.11.4 |
 | Shapely | 2.0.1 |
@@ -109,16 +109,16 @@ If you use FORGE in your research, please cite:
   author  = {Marsden, Chris},
   title   = {{FORGE}: {F}ORGE {O}ptimises {R}eactor {G}eometries to improve {E}xhaust},
   url     = {https://github.com/FORGExhaust/FORGE},
-  version = {1.0.0},
+  version = {1.0.1},
   year    = {2026}
 }
 ```
 
 ## Authors and Acknowledgements
 
-- **Chris Marsden** — project lead and primary developer
-- **Sebastien Shaw** — foundational work during a FOSTER summer placement (2025)
-- **Nathan Welch** — [SCOPE](https://arxiv.org/pdf/2512.16546) project lead; guidance on the simulated annealing approach
+- **Chris Marsden** — Former Tokamak Energy scientist. Project lead and primary developer.
+- **Sebastien Shaw** — Student at Imperial College London. Performed foundational work during a UKAEA FOSTER summer placement (2025).
+- **Nathan Welch** — [SCOPE](https://arxiv.org/pdf/2512.16546) project lead; guidance on the simulated annealing approach.
 
 FORGE builds on several routines from
 [FreeGS](https://github.com/freegs-plasma/freegs) (Ben Dudson et al.),

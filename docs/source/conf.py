@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 project = "FORGE"
 copyright = "2026, Chris Marsden"
 author = "Chris Marsden"
-release = "1.0.0"
+release = "1.0.1"
 
 # -- General configuration ---------------------------------------------------
 extensions = [

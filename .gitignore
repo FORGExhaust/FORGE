@@ -159,3 +159,8 @@ cython_debug/
 
 # Ruff
 .ruff*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride

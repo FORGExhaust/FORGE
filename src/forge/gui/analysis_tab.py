@@ -17,6 +17,7 @@ from bokeh.models import BasicTickFormatter, ColumnDataSource, HoverTool, Range1
 from bokeh.plotting import figure as bk_figure
 from bokeh.transform import linear_cmap
 
+from forge.gui.contours import contour_xy_lists
 from forge.gui.setup_tab import SetupTab
 from forge.io import (
     _UNPICKLABLE_ATTRS,
@@ -435,21 +436,12 @@ class AnalysisTab:
 
         fig_tmp, ax_tmp = plt.subplots()
         cs = ax_tmp.contour(R_2D, Z_2D, psi_2D, levels=40)
-        xs_all, ys_all = [], []
-        for collection in cs.collections:
-            for path in collection.get_paths():
-                verts = path.vertices
-                xs_all.append(verts[:, 0].tolist())
-                ys_all.append(verts[:, 1].tolist())
+        xs_all, ys_all = contour_xy_lists(cs)
 
         sep_xs, sep_ys = [], []
         if psi_lcfs is not None:
             cs_sep = ax_tmp.contour(R_2D, Z_2D, psi_2D, levels=[psi_lcfs])
-            for collection in cs_sep.collections:
-                for path in collection.get_paths():
-                    verts = path.vertices
-                    sep_xs.append(verts[:, 0].tolist())
-                    sep_ys.append(verts[:, 1].tolist())
+            sep_xs, sep_ys = contour_xy_lists(cs_sep)
 
         plt.close(fig_tmp)
         return xs_all, ys_all, sep_xs, sep_ys
