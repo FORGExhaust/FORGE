@@ -82,7 +82,7 @@ pip install -e ".[test,docs,gui]"
 |---------|-----------------|
 | NumPy | 2.0.0 |
 | Matplotlib | 3.7.5 |
-| SciPy | 1.11.4 |
+| SciPy | 1.11.4 (< 1.18) |
 | Shapely | 2.0.1 |
 | freeqdsk | 0.4.0 |
 

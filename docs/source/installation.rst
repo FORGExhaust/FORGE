@@ -7,7 +7,7 @@ Requirements
 * Python >= 3.10.12
 * NumPy >= 2.0.0
 * Matplotlib >= 3.7.5
-* SciPy >= 1.11.4
+* SciPy >= 1.11.4, < 1.18
 * Shapely >= 2.0.1
 * FreeQDSK >= 0.4.0
 
