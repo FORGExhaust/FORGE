@@ -27,7 +27,7 @@ license = {text = "LGPL-3.0-or-later"}
 dependencies = [
     "numpy>=2.0.0",
     "matplotlib>=3.7.5",
-    "scipy>=1.11.4",
+    "scipy>=1.11.4,<1.18",
     "shapely>=2.0.1",
     "freeqdsk>=0.4.0",
 ]
