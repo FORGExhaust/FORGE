@@ -293,6 +293,20 @@ that every proposed coil current change **exactly satisfies all
 constraints** by construction. The optimiser is free to explore
 divertor geometry changes without ever disturbing the core.
 
+.. note::
+
+   Each row of the constraint matrix must be linearly independent.
+   If two locations receive the same flux response from every coil
+   (or circuit), their rows are identical and the matrix is
+   rank-deficient.  The most common user mistake is selecting
+   **mirrored** constraint points on both sides of the midplane when
+   the equilibrium is up–down symmetric *and* the PF coils are wired
+   in symmetric upper/lower circuits: fixing flux at
+   :math:`(R, -Z)` already fixes it at :math:`(R, +Z)`, so the
+   second pin is redundant.  See the warning in :doc:`getting_started`
+   (Step 4) for practical guidance on choosing constraints for
+   double-null cases.
+
 
 What Gets Evaluated: The Cost Function
 ---------------------------------------

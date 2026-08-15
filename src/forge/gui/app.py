@@ -43,6 +43,7 @@ from forge.gui.analysis_tab import AnalysisTab
 from forge.gui.geometry_tab import GeometryTab
 from forge.gui.optimisation_tab import OptimisationTab
 from forge.gui.setup_tab import SetupTab
+from forge.gui.wall_tab import WallTab
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +58,7 @@ _DOWNLOAD_STORE: dict[str, bytes] = {}
 _UPLOAD_STORE: dict[str, bytes] = {}
 
 # Panel extensions
-pn.extension(sizing_mode="stretch_width")
+pn.extension("tabulator", sizing_mode="stretch_width")
 
 
 class _DownloadHandler(tornado.web.RequestHandler):
@@ -167,16 +168,25 @@ def create_app():
     shared_state = {}
 
     setup = SetupTab(shared_state)
+    wall = WallTab(shared_state)
     geometry = GeometryTab(shared_state)
     setup._geometry_tab = geometry
+    setup._wall_tab = wall
+    wall._setup_tab = setup
+    wall._geometry_tab = geometry
     optimisation = OptimisationTab(shared_state, setup_tab=setup, geometry_tab=geometry)
     analysis = AnalysisTab(shared_state)
 
-    tabs = pn.Tabs(
+    tab_items = [
         ("Setup", setup.panel),
+        ("Wall", wall.panel),
         ("Geometry", geometry.panel),
         ("Optimise", optimisation.panel),
         ("Analysis", analysis.panel),
+    ]
+
+    tabs = pn.Tabs(
+        *tab_items,
         stylesheets=[
             # Stop Bokeh from sizing the tab container to the tallest tab.
             # Each tab panel only takes as much height as its own content.
@@ -184,12 +194,14 @@ def create_app():
         ],
     )
 
+    geometry_index = [name for name, _ in tab_items].index("Geometry")
+
     # When the user switches to the Geometry tab, rebuild the sidebar widget
     # lists.  Buttons created before the tab is rendered (e.g. during config
     # load) don't have live event wiring; rebuilding with a live document
     # ensures on_click callbacks fire correctly.
     def _on_tab_change(event):
-        if event.new == 1:  # Geometry tab
+        if event.new == geometry_index:
             geometry._rebuild_strike_point_list()
             geometry._rebuild_xpt_region_list()
 

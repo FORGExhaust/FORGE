@@ -109,7 +109,7 @@ If you use FORGE in your research, please cite:
   author  = {Marsden, Chris},
   title   = {{FORGE}: {F}ORGE {O}ptimises {R}eactor {G}eometries to improve {E}xhaust},
   url     = {https://github.com/FORGExhaust/FORGE},
-  version = {1.0.1},
+  version = {1.1.0},
   year    = {2026}
 }
 ```
