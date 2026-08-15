@@ -557,6 +557,44 @@ unconstrained because the divertor being optimised is in the lower half
 of the machine. The lower point is also unconstrained to allow the lower
 separatrix shape to change with the divertor geometry.
 
+.. warning::
+
+   **Avoid redundant symmetric constraints.**  The annealing
+   null-space is built from a Green's-function matrix whose rows are
+   flux (and field) responses at each constraint location.  Each row
+   must be **linearly independent** — duplicate rows make the matrix
+   rank-deficient and the optimiser can crash on the first annealing
+   move (a ``matmul`` dimension mismatch in the logs).
+
+   This typically happens when **three things are true at once**:
+
+   1. The equilibrium is **up–down symmetric** (e.g. a balanced
+      double-null, ``DND = True`` in the Setup tab).
+   2. The PF coils are wired in **symmetric circuits** (upper and lower
+      coils in each circuit driven with opposite sign, as in real
+      tokamaks).
+   3. The constraint set **mirrors the midplane** — e.g. both
+      ``constrain_upper_point`` and ``constrain_lower_point``,
+      separatrix points in all four quadrants, or
+      ``xpoint_constraint = "both"`` when a single X-point would
+      suffice.
+
+   With symmetric coils on a symmetric plasma, the machine flux at
+   :math:`(R, +Z)` is fixed automatically once it is fixed at
+   :math:`(R, -Z)`.  Constraining both halves therefore adds the
+   **same** condition twice.  It also **needlessly shrinks** the
+   null-space, leaving the optimiser fewer degrees of freedom.
+
+   **What to do instead:** constrain only the half of the machine you
+   are actually reshaping.  For a lower-divertor optimisation on a DND
+   case with symmetric circuits, a typical set is: OMP, IMP, one
+   vertical point (usually the upper apex), quadrant constraints in the
+   **lower** half only, and ``xpoint_constraint = "lower"`` (or
+   ``"upper"`` if that is the primary X-point you need to hold).  Do
+   **not** tick both upper and lower point constraints, and do not
+   enable upper-quadrant separatrix pins unless the plasma or coil
+   wiring breaks midplane symmetry.
+
 
 Step 5: Defining the Strike Surface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

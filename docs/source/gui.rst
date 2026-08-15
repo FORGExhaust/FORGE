@@ -70,15 +70,16 @@ Then, in a notebook cell:
 Overview
 --------
 
-The GUI is organised into four tabs that follow the typical FORGE
+The GUI is organised into five tabs that follow the typical FORGE
 workflow:
 
 1. **Setup** — load input files and build the equilibrium.
-2. **Geometry** — interactively define strike surfaces, wall buffers,
+2. **Wall** — interactively edit the machine wall outline (optional).
+3. **Geometry** — interactively define strike surfaces, wall buffers,
    and X-Point Target (XPT) regions.
-3. **Optimise** — configure and run the optimisation with real-time
+4. **Optimise** — configure and run the optimisation with real-time
    monitoring.
-4. **Analysis** — inspect results, compare coil currents, and export
+5. **Analysis** — inspect results, compare coil currents, and export
    data.
 
 
@@ -108,9 +109,99 @@ The Setup tab is the starting point. It provides:
   physically reasonable before proceeding to geometry definition.
 * A **coils table** listing all PF coils with their positions, turns,
   and initial currents.
+* An **annealing constraints** panel and a **null-space summary** (see
+  below).
 
 Once the data is loaded, the equilibrium and machine are stored in a
 shared state dictionary and passed to the other tabs.
+
+**Annealing constraints**
+
+The constraint checkboxes and quadrant counts in the Setup tab mirror
+the ``constraints["annealing"]`` dictionary used by the optimiser (see
+:doc:`getting_started`, Step 4).  Selected locations are overlaid on
+the equilibrium plot as markers.
+
+The **null-space summary** below the coils table reports
+:math:`N_{\text{coils}}`, the number of constraint rows you have
+selected, and their difference.  This assumes every selected constraint
+is independent; it can look healthy even when some rows are redundant.
+
+.. warning::
+
+   On a **double-null** equilibrium with **symmetric PF circuits**, do
+   not mirror constraints across the midplane — for example, do not
+   enable both *Constrain upper point* and *Constrain lower point*, or
+   pin separatrix points in all four quadrants when only the lower
+   divertor is being optimised.  Symmetric coils already produce
+   up–down symmetric machine flux, so a constraint at
+   :math:`(R, +Z)` duplicates one at :math:`(R, -Z)`.  That redundancy
+   makes the constraint matrix rank-deficient and the optimiser may
+   crash immediately.  Constrain **one half** of the machine only; see
+   the detailed guidance in :doc:`getting_started` (Step 4).
+
+
+Wall Tab
+^^^^^^^^
+
+The Wall tab lets the machine wall be reshaped before an optimisation is
+set up. It is optional: if the wall in the GEQDSK is already correct,
+skip straight to the Geometry tab.
+
+All editing is done on a **temporary copy** of the wall held by the tab.
+The ``Machine``, ``Equilibrium`` and GEQDSK data are untouched until
+*Finish — update machine wall* is pressed, so the wall can be reshaped,
+loaded from file and exported freely without disturbing anything
+downstream.
+
+The wall can be edited in three ways:
+
+* **On the canvas.** Select the *Edit wall vertices* tool in the Bokeh
+  toolbar and click-and-hold inside the wall outline; red vertices
+  appear. Drag a vertex to move it, click-and-hold on a vertex to insert
+  a new one, and press :kbd:`Backspace` to delete the selected vertex.
+* **In the point table.** Every wall point is listed with its R and Z
+  coordinates, which can be edited directly. The repeated closing point
+  is handled automatically and is not listed.
+* **With the selected-point controls.** Selecting a table row highlights
+  that point on the canvas with a cyan ring and loads it into the R/Z
+  boxes below the table. *Insert point after* adds a point midway
+  between the selected point and the next one — with no row selected it
+  adds one after the last point, on the segment that closes the wall.
+  *Delete point* removes the selected point.
+
+*Reset to machine wall* re-reads the wall from the loaded machine,
+discarding all edits.
+
+The tab also provides file I/O, each available both as a browser
+download/upload and as a path on the machine running the server:
+
+* **Load wall** from a JSON file of the form
+  ``{"R": [...], "Z": [...]}`` with coordinates in metres, matching the
+  wall files bundled with FORGE.
+* **Save wall** to the same JSON format.
+* **Save GEQDSK** — writes the loaded equilibrium out with the wall as
+  currently edited. This does not require pressing *Finish*, so a
+  modified GEQDSK can be exported without changing the running session.
+
+Pressing **Finish** validates the wall and, if it passes, applies it to
+the machine and equilibrium. Validation requires that all coordinates
+are finite, that there are at least three distinct points, that every
+:math:`R > 0`, and that the outline does not intersect itself. A
+self-intersecting wall would silently corrupt field-line strike
+detection, so a failure blocks the update and reports the reason.
+
+Because strike points are snapped onto the wall and buffers are built
+from specific wall segments, both are cleared across all divertor
+regions when a new wall is applied, and must be redefined on the
+Geometry tab. X-point regions are free-space polygons and are kept.
+
+.. note::
+
+   The wall should be finalised **before** running an optimisation. The
+   ``Optimiser`` caches a prepared form of the wall geometry when it is
+   constructed, so editing the wall part-way through a run has no effect
+   on that run.
 
 
 Geometry Tab

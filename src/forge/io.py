@@ -222,20 +222,167 @@ def write_magnets(machine, path):
     """
     save_fancy_json(machine.to_dict(), path)
 
-def write_geqdsk(
+def wall_from_dict(payload):
+    """Validate a decoded wall JSON payload and return closed coordinates.
+
+    Split out from :func:`read_wall` so that a wall uploaded through the GUI
+    can be validated identically to one read from disk.
+
+    Parameters
+    ----------
+    payload : dict
+        Decoded JSON object with ``"R"`` and ``"Z"`` keys.
+
+    Returns
+    -------
+    wall_R : list of float
+        Radial coordinates of the wall, in metres.
+    wall_Z : list of float
+        Vertical coordinates of the wall, in metres.
+
+    Raises
+    ------
+    ValueError
+        If *payload* is not a dict, is missing ``R``/``Z``, the two lists
+        differ in length, or fewer than three points are given.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("Wall JSON must be an object with 'R' and 'Z' keys.")
+
+    if "R" not in payload or "Z" not in payload:
+        raise ValueError("Wall JSON must contain both 'R' and 'Z' keys.")
+
+    try:
+        wall_R = [float(v) for v in payload["R"]]
+        wall_Z = [float(v) for v in payload["Z"]]
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Wall JSON 'R'/'Z' must be lists of numbers: {exc}") from exc
+
+    if len(wall_R) != len(wall_Z):
+        raise ValueError(
+            f"Wall JSON 'R' and 'Z' must be the same length "
+            f"({len(wall_R)} vs {len(wall_Z)})."
+        )
+
+    if len(wall_R) < 3:
+        raise ValueError(
+            f"A wall needs at least 3 points, but {len(wall_R)} were given."
+        )
+
+    # Check if the wall is joined up
+    if not (wall_R[-1] == wall_R[0] and wall_Z[-1] == wall_Z[0]):
+
+        wall_R.append(wall_R[0])
+        wall_Z.append(wall_Z[0])
+
+    return wall_R, wall_Z
+
+def read_wall(path):
+    """Read a wall (limiter) outline from a JSON file.
+
+    The file must be a JSON object with ``"R"`` and ``"Z"`` keys holding
+    equal-length lists of coordinates in metres, e.g. the bundled
+    ``data/json/MAST-U/MAST-U_wall.json``.  As with :func:`read_geqdsk`, the
+    returned outline is closed: if the first and last points differ, the first
+    point is appended.
+
+    Parameters
+    ----------
+    path : str or pathlib.Path
+        Path to the wall JSON file.
+
+    Returns
+    -------
+    wall_R : list of float
+        Radial coordinates of the wall, in metres.
+    wall_Z : list of float
+        Vertical coordinates of the wall, in metres.
+
+    See Also
+    --------
+    write_wall : Write a wall outline to a JSON file.
+    """
+    path = Path(path)
+
+    with open(path, "r") as f:
+        payload = json.load(f)
+
+    return wall_from_dict(payload)
+
+def write_wall(wall_R, wall_Z, path):
+    """Write a wall (limiter) outline to a JSON file.
+
+    The output format matches the schema used by :func:`read_wall`, so a
+    saved file can be loaded back directly.
+
+    Parameters
+    ----------
+    wall_R : sequence of float
+        Radial coordinates of the wall, in metres.
+    wall_Z : sequence of float
+        Vertical coordinates of the wall, in metres.
+    path : str or pathlib.Path
+        Output file path (typically ending in ``.json``).
+
+    Raises
+    ------
+    ValueError
+        If the two coordinate lists differ in length.
+
+    See Also
+    --------
+    read_wall : Read a wall outline from a JSON file.
+    """
+    wall_R = [float(v) for v in wall_R]
+    wall_Z = [float(v) for v in wall_Z]
+
+    if len(wall_R) != len(wall_Z):
+        raise ValueError(
+            f"wall_R and wall_Z must be the same length "
+            f"({len(wall_R)} vs {len(wall_Z)})."
+        )
+
+    save_fancy_json({"R": wall_R, "Z": wall_Z}, path)
+
+def geqdsk_dict(
         eq,
-        path_to_geqdsk,
+        wall_R = None,
+        wall_Z = None,
 ):
-    """Takes a forge.equilibrium Equilibrium object and creates a GEQDSK file.
+    """Build the FreeQDSK data dictionary describing an Equilibrium.
 
     Parameters
     ----------
     eq : forge.equilibrium.Equilibrium object
-        Equilibrium to be output as a GEQDSK.
-    path_to_geqdsk : str
-        Output path for the GEQDSK file.
+        Equilibrium to be described.
+    wall_R : sequence of float, optional
+        Wall radial coordinates to use in place of ``eq.wall_R``. Allows a
+        modified wall to be written without mutating the Equilibrium.
+    wall_Z : sequence of float, optional
+        Wall vertical coordinates to use in place of ``eq.wall_Z``.
 
+    Returns
+    -------
+    data : dict
+        Dictionary in the form expected by ``freeqdsk.geqdsk.write``.
+
+    See Also
+    --------
+    write_geqdsk : Write an Equilibrium to a GEQDSK file.
     """
+
+    if (wall_R is None) != (wall_Z is None):
+        raise ValueError("wall_R and wall_Z must be supplied together.")
+
+    if wall_R is None:
+        wall_R = eq.wall_R
+        wall_Z = eq.wall_Z
+
+    if len(wall_R) != len(wall_Z):
+        raise ValueError(
+            f"wall_R and wall_Z must be the same length "
+            f"({len(wall_R)} vs {len(wall_Z)})."
+        )
 
     # Define a reference radius
     rcentr = 1.0
@@ -261,12 +408,38 @@ def write_geqdsk(
         'psi': eq.psi_2D,
         'qpsi': eq.q_data,
         'nbdry': len(eq.R_lcfs),
-        'nlim': len(eq.wall_R),
+        'nlim': len(wall_R),
         'rbdry': eq.R_lcfs,
         'zbdry': eq.Z_lcfs,
-        'rlim': eq.wall_R,
-        'zlim': eq.wall_Z,
+        'rlim': wall_R,
+        'zlim': wall_Z,
     }
+
+    return data
+
+def write_geqdsk(
+        eq,
+        path_to_geqdsk,
+        wall_R = None,
+        wall_Z = None,
+):
+    """Takes a forge.equilibrium Equilibrium object and creates a GEQDSK file.
+
+    Parameters
+    ----------
+    eq : forge.equilibrium.Equilibrium object
+        Equilibrium to be output as a GEQDSK.
+    path_to_geqdsk : str
+        Output path for the GEQDSK file.
+    wall_R : sequence of float, optional
+        Wall radial coordinates to write in place of ``eq.wall_R``. Allows a
+        modified wall to be written without mutating the Equilibrium.
+    wall_Z : sequence of float, optional
+        Wall vertical coordinates to write in place of ``eq.wall_Z``.
+
+    """
+
+    data = geqdsk_dict(eq, wall_R=wall_R, wall_Z=wall_Z)
 
     time = int(0)
 

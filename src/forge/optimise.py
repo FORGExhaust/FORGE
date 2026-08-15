@@ -426,6 +426,8 @@ class Optimiser:
         # As this is the first cost function evaluation it is by definition also the best state currently explored.
         # Hence, the incumbent state will be this one, for now.
         self.incumbent_data = previous_state_data
+        # Iteration numbers follow tracking-array indices: 0 = initial equilibrium,
+        # 1 = first SA evaluation, and so on.
         self.incumbent_data["iteration_num"] = 0
 
         # Now we can actually begin the simulated annealing algorithm. To briefly quote Google:
@@ -597,14 +599,6 @@ class Optimiser:
                     # Update the global acceptance tracker
                     self.tracking_acceptance.append(1.0)
 
-                    # Check if the newly accepted state is the incumbent.
-                    # Sometimes we allow worse solutions (particularly at higher temperature)
-                    # hence this new accepted state wont necessarily be the incumbent.
-                    if previous_state_data["cost"] < self.incumbent_data["cost"]:
-
-                        self.incumbent_data = previous_state_data
-                        self.incumbent_data["iteration_num"] = self.num_evals
-
                 else:
 
                     # Update the global acceptance tracker
@@ -636,6 +630,14 @@ class Optimiser:
 
                 # Increase counters
                 self.num_evals += 1
+
+                # Check if the new state was both accepted and is the incumbent.
+                # Sometimes we allow worse solutions (particularly at higher temperature)
+                # hence a newly accepted state wont necessarily be the incumbent.
+                if new_state_data["acceptance"] and (previous_state_data["cost"] < self.incumbent_data["cost"]):
+                    self.incumbent_data = previous_state_data
+                    # num_evals equals the tracking-array index (0 = initial, k = k-th SA evaluation).
+                    self.incumbent_data["iteration_num"] = self.num_evals
 
                 # Update tracking data
                 self.tracking_temperature.append(self.temperature)

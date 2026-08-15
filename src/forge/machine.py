@@ -103,10 +103,41 @@ class Machine:
         ):
 
         self.magnets_data = magnets_data
-        self.wall_R = wall_R
-        self.wall_Z = wall_Z
         self.circuits = circuits
         self.other_structures = other_structures
+
+        # Sets wall_R/wall_Z and everything derived from them
+        self.set_wall(wall_R, wall_Z)
+
+        # Create the coil objects
+        self.create_coilset()
+
+    def set_wall(self, wall_R, wall_Z):
+        """Set the machine wall and recompute everything derived from it.
+
+        The wall bounds and the Shapely representation are cached, so the wall
+        coordinates must be replaced through this method rather than assigned
+        directly, otherwise those cached values go stale.
+
+        Parameters
+        ----------
+        wall_R : list
+            R coordinates of the machine wall.
+        wall_Z : list
+            Z coordinates of the machine wall.
+        """
+
+        if wall_R is None or wall_Z is None:
+            raise ValueError("A Machine requires both wall_R and wall_Z.")
+
+        if len(wall_R) != len(wall_Z):
+            raise ValueError(
+                f"wall_R and wall_Z must be the same length "
+                f"({len(wall_R)} vs {len(wall_Z)})."
+            )
+
+        self.wall_R = wall_R
+        self.wall_Z = wall_Z
 
         # Record the max/min R/Z of the wall. This can be used later in plotting routines.
         self.wall_R_min = np.amin(self.wall_R)
@@ -116,9 +147,6 @@ class Machine:
 
         # Create a Shapely LineString object of the wall
         self.wall = LineString(list(zip(self.wall_R,self.wall_Z)))
-
-        # Create the coil objects
-        self.create_coilset()
 
     def create_coilset(self):
         """Creates the PF coil set.

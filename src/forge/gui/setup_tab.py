@@ -27,9 +27,10 @@ _COIL_COLOURS = [
 class SetupTab:
     """Panel component for the machine / equilibrium setup phase."""
 
-    def __init__(self, shared_state, geometry_tab=None):
+    def __init__(self, shared_state, geometry_tab=None, wall_tab=None):
         self.state = shared_state
         self._geometry_tab = geometry_tab
+        self._wall_tab = wall_tab
 
         # --- Widgets ---
         self.geqdsk_input = pn.widgets.FileInput(accept=".geqdsk,.GEQDSK,.eqdsk", name="GEQDSK file")
@@ -348,8 +349,10 @@ class SetupTab:
                 self._update_profile_plots(eq)
                 self._update_decomp_plots(eq, tokamak)
                 self._update_null_space_info(tokamak)
-                # Auto-refresh geometry tab (inside the hold block so its
-                # model updates are also batched).
+                # Auto-refresh the wall and geometry tabs (inside the hold
+                # block so their model updates are also batched).
+                if self._wall_tab is not None:
+                    self._wall_tab._on_refresh(None)
                 if self._geometry_tab is not None:
                     self._geometry_tab._on_refresh(None)
             finally:
